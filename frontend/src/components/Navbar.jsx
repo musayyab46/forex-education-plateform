@@ -9,53 +9,54 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white top-0 z-50 sticky shadow-md">
+    <nav className="bg-white sticky top-0 z-50 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16">
+        <div className="flex items-center h-16 justify-between">
 
-          {/* Left: Logo */}
-          <div className="flex-1 flex items-center">
-            <a href="#" className="text-2xl font-bold text-blue-600">ForexEdu</a>
-          </div>
+          {/* Logo */}
+          <a href="#" className="text-2xl font-bold text-blue-600">ForexEdu</a>
 
-          {/* Center: Navigation Links */}
-          <div className="hidden md:flex items-center space-x-6 justify-center">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8">
             <a href="/dashboard" className="text-gray-700 hover:text-blue-600">Home</a>
             <a href="/courses" className="text-gray-700 hover:text-blue-600">Courses</a>
             <a href="/LiveRates" className="text-gray-700 hover:text-blue-600">Live Rates</a>
             <a href="/currency" className="text-gray-700 hover:text-blue-600">Currency Converter</a>
-          </div>
-
-          {/* Right: Logout & Profile */}
-          <div className="flex-1 hidden md:flex items-center justify-end space-x-4">
             <a href="/" className="text-gray-600 hover:text-blue-600">Logout</a>
             <div className="flex items-center space-x-2">
-              <UserCircleIcon className="w-9 h-9 text-blue-600" />
-              <span className="hidden md:inline text-gray-700">John Doe</span>
+              <UserCircleIcon className="w-8 h-8 text-blue-600" />
+              <span className="text-gray-700">John Doe</span>
             </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center md:hidden">
+          <div className="md:hidden flex items-center">
             <button onClick={toggleMenu} className="text-gray-700 focus:outline-none">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           </div>
-
         </div>
 
-        {/* Mobile Menu Items */}
-        {isOpen && (
-          <div className="md:hidden mt-2 space-y-2 pb-4">
-            <a href="/dashboard" className="block text-gray-700 hover:text-blue-600">Home</a>
-            <a href="/courses" className="block text-gray-700 hover:text-blue-600">Courses</a>
-            <a href="/LiveRates" className="block text-gray-700 hover:text-blue-600">Live Rates</a>
-            <a href="/currency" className="block text-gray-700 hover:text-blue-600">Currency Converter</a>
-            <a href="/" className="block text-gray-600 hover:text-blue-600">Logout</a>
+        {/* Mobile Menu */}
+        <div
+          className={`md:hidden transition-all duration-300 ease-in-out ${
+            isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+          }`}
+        >
+          <div className="flex flex-col bg-white rounded-lg shadow-lg p-4 mt-2 space-y-3">
+            <a href="/dashboard" className="text-gray-700 hover:text-blue-600">Home</a>
+            <a href="/courses" className="text-gray-700 hover:text-blue-600">Courses</a>
+            <a href="/LiveRates" className="text-gray-700 hover:text-blue-600">Live Rates</a>
+            <a href="/currency" className="text-gray-700 hover:text-blue-600">Currency Converter</a>
+            <a href="/" className="text-gray-600 hover:text-blue-600">Logout</a>
+            <div className="flex items-center space-x-2 pt-2 border-t mt-2">
+              <UserCircleIcon className="w-7 h-7 text-blue-600" />
+              <span className="text-gray-700">John Doe</span>
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
