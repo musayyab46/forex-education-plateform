@@ -1,10 +1,16 @@
 const express = require('express');
-const { addCourse, getAllCourses } = require('../controllers/courseController');
+const { addCourse, getAllCourses, getCourseById } = require('../controllers/courseController');
 const requireAuth = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-router.post('/', requireAuth, addCourse);    // Add Course (Protected)
-router.get('/', getAllCourses);              // Get All Courses (Public or protected—your choice)
+// Add Course (Protected)
+router.post('/', requireAuth, addCourse);
+
+// Get All Courses (Public or Protected — your choice)
+router.get('/', getAllCourses);
+
+// ✅ Get a Single Course by ID (Public)
+router.get('/:id', getCourseById);
 
 module.exports = router;

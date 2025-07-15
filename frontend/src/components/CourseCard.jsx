@@ -11,7 +11,7 @@ const CourseCard = ({ course }) => {
     <Crown className="w-4 h-4 text-yellow-500" />
   </div>
       {/* Course Image */}
-      <img src={course.image} alt={course.title} className="h-40 w-full object-cover" />
+      <img src={`http://localhost:5000${course.image}`} alt={course.title} className="h-40 w-full object-cover" />
 
       {/* Content section */}
       <div className="p-4">
@@ -30,7 +30,7 @@ const CourseCard = ({ course }) => {
         
 
         {/* Button */}
-        <button  onClick={()=> navigate(`/course/${course.id}`)} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded">
+        <button  onClick={()=> navigate(`/course/${course._id}`)} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded">
           View Details
         </button>
       </div>

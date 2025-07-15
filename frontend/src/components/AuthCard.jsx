@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ correct import
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AuthCard = ({ type }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const navigate = useNavigate(); // ✅ call it inside the component
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  // ✅ Main submit handler
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const trimmedEmail = email.trim();
     const trimmedPassword = password.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    // ✅ Validation
     if (!trimmedEmail || !emailRegex.test(trimmedEmail)) {
       alert("Please enter a valid email address.");
       return;
@@ -29,56 +32,81 @@ const AuthCard = ({ type }) => {
       return;
     }
 
-    // Redirect after success
-    if (type === 'login') {
-      alert('Login successful');
-      navigate('/dashboard');
-    } else {
-      alert('Signup successful');
-      navigate('/login');
+    try {
+      if (type === 'login') {
+        // ✅ Send login request
+        const res = await axios.post("http://localhost:5000/api/auth/login", {
+          email,
+          password,
+        });
+
+        alert("Login successful!");
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userEmail", email);
+        console.log("Token:", res.data.token); // You can save it in localStorage if needed
+        navigate('/dashboard');
+
+      } else {
+        // ✅ Send signup request
+        const res = await axios.post("http://localhost:5000/api/auth/signup", {
+          email,
+          password,
+        });
+        localStorage.setItem("userEmail", email); // ✅ Save on signup as well
+
+
+        alert("Signup successful!");
+        console.log(res.data);
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error("Auth error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Authentication failed.");
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-200">
       <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-4">{type === 'login' ? 'Login' : 'Sign Up'}</h2>
+        <h2 className="text-2xl font-bold text-center mb-4">
+          {type === 'login' ? 'Login' : 'Sign Up'}
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
-              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md"
               placeholder="Enter your email"
+              required
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-700">Password</label>
             <input
-              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md"
               placeholder="Enter your password"
+              required
             />
           </div>
 
           {type === 'signup' && (
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+              <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
               <input
-                id="confirmPassword"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded-md"
                 placeholder="Confirm your password"
+                required
               />
             </div>
           )}

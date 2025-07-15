@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import {
   BarChart3,
@@ -35,7 +36,16 @@ const courseImages = {
 };
 
 const Dashboard = () => {
+  const navigate=useNavigate();
   const [courses, setCourses] = useState([]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      // Redirect to login if not logged in
+      navigate("/login");
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const fetchCourses = async () => {

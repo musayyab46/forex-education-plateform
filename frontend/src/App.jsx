@@ -16,69 +16,26 @@ import CourseDetailPage from "./pages/CourseDetailPage";
 import image6 from "./assets/image6.jpeg";
 import image7 from "./assets/image7.webp";
 import PricingPage from "./pages/PricingPage";
-const courses = [
-  {
-    id: 1,
-    title: "Forex Trading for Beginners",
-    instructor: "John Smith",
-    rating: 4.5,
-    reviews: 1200,
-    price: "$49.99",
-    image: image6,
-    modules: [
-      {
-        id: 1,
-        title: "Module 1: Introduction",
-        isLocked: false,
-        videoUrl: "https://www.youtube.com/embed/tgbNymZ7vqY",
-      },
-      {
-        id: 2,
-        title: "Module 2: Basics",
-        isLocked: true,
-        videoUrl: "https://www.youtube.com/embed/Sagg08DrO5U",
-      },
-      {
-        id: 3,
-        title: "Module 3: Advanced Concepts",
-        isLocked: true,
-        videoUrl: "https://www.youtube.com/embed/ScMzIvxBSi4",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Advanced Forex Strategies",
-    instructor: "Jane Doe",
-    rating: 4.7,
-    reviews: 800,
-    price: "$59.99",
-    image: image7,
-    modules: [
-      {
-        id: 1,
-        title: "Strategy 1: RSI Divergence",
-        isLocked: false,
-        videoUrl: "https://www.youtube.com/embed/5DCAC1W1y10",
-      },
-      {
-        id: 2,
-        title: "Strategy 2: Breakout Trading",
-        isLocked: true,
-        videoUrl: "https://www.youtube.com/embed/nCZoAldyy0Q",
-      },
-      {
-        id: 3,
-        title: "Strategy 3: Fibonacci Levels",
-        isLocked: true,
-        videoUrl: "https://www.youtube.com/embed/9cNN3kH9U6o",
-      },
-    ],
-  },
-];
-
+import Profile from './pages/Profile';
+import { useEffect, useState } from "react";
+import {getCourses} from './api/courseApi';
 
 function App() {
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    // Fetch all courses from backend
+    const fetchCourses = async () => {
+      try {
+       const courseData=await getCourses();
+        setCourses(courseData); // Ensure your backend returns an array of courses
+      } catch (error) {
+        console.error("Error fetching courses:", error.message);
+      }
+    };
+
+    fetchCourses();
+  }, []);
   return (
     <div className="overscroll-none">
     <Router>
@@ -98,6 +55,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />}/>
         <Route path="/login" element={<LoginPage />}/>
         <Route path="/" element={<HomePage />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/course/:id" element={<CourseDetailPage courses={courses}/>}/>
       </Routes>
     </Router>
