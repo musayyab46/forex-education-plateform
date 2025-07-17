@@ -14,6 +14,10 @@ app.use(express.json()); // This is required to parse JSON request bodies
 app.use(cors());
 
 // ✅ Routes
+app.get('/', (req, res) => {
+  res.send('Backend API is live!');
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
