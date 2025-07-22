@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   res.send('Backend API is live!');
 });
 app.use('/test',()=>{
-  console.log("backend is running");
+  res.end("test route is running successfully");
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
