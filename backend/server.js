@@ -17,8 +17,8 @@ app.use(cors());
 app.get('/', (req, res) => {
   res.send('Backend API is live!');
 });
-app.use('/test',()=>{
-  res.end("test route is running successfully");
+app.use('/test',(req,res)=>{
+  res.send("test route is running successfully");
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
