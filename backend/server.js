@@ -17,7 +17,9 @@ app.use(cors());
 app.get('/', (req, res) => {
   res.send('Backend API is live!');
 });
-
+app.use('/test',()=>{
+  console.log("backend is running");
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
