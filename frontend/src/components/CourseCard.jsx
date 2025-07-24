@@ -11,7 +11,7 @@ const CourseCard = ({ course }) => {
     <Crown className="w-4 h-4 text-yellow-500" />
   </div>
       {/* Course Image */}
-      <img src={`https://forex-education-plateform.onrender.com/${course.image}`} alt={course.title} className="h-40 w-full object-cover" />
+      <img src={`https://forex-education-plateform.onrender.com${course.image}`} alt={course.title} className="h-40 w-full object-cover" />
 
       {/* Content section */}
       <div className="p-4">
